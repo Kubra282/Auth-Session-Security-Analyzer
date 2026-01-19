@@ -1,1 +1,25 @@
-# Sources for gemini-fast
+* https://deepstrike.io
+* https://owasp.org
+* https://cheatsheetseries.owasp.org
+* https://gist.github.com
+* https://portswigger.net
+* https://security.stackexchange.com
+* https://csrc.nist.gov
+* https://rambus.com
+* https://mdpi.com
+* https://pentestpeople.com
+* https://stackoverflow.com
+* https://topicsec.github.io
+* https://blogs.perficient.com
+* https://zaproxy.org
+* https://github.com
+* https://chromewebstore.google.com
+* https://wiz.io
+* https://ox.security
+* https://invicti.com
+* https://acunetix.com
+* https://pingidentity.com
+* https://blog.softwaretoolbox.com
+* https://dragonflytest.com
+* https://securitywall.co
+* https://cobalt.io
