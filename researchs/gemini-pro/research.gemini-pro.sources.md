@@ -1,4 +1,4 @@
-# Sources for gemini-pro
+
 # Kaynak Listesi
 
 * **Testing Authorization with Auth Analyzer in Burp Suite** - dev.to
