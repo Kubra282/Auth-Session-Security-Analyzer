@@ -1,4 +1,4 @@
-# Prompts for gemini-pro
+
 [Auth-Session-Security-Analyzer] hakkında detaylı bir teknik araştırma yapmanı istiyorum.
 
 1. Bu teknolojinin/konunun temel çalışma prensipleri nelerdir?
