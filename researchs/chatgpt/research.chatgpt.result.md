@@ -1,97 +1,86 @@
-# Auth Analyzer – Derinlemesine Teknik Araştırma Raporu
+# Auth Analyzer – Teknik Araştırma Sonucu
 
-## 1. Tanım ve Amaç
-Auth Analyzer, web uygulamalarındaki **yetkilendirme (authorization)** ve **oturum yönetimi (session management)** mekanizmalarını test etmek amacıyla geliştirilen, :contentReference[oaicite:0]{index=0} üzerinde çalışan bir pentest uzantısıdır. Araç özellikle **privilege escalation** (yatay ve dikey yetki yükseltme) ve **authorization bypass** açıklarının tespitine odaklanır.
+## 1. Genel Tanım
+Auth Analyzer, :contentReference[oaicite:0]{index=0} için geliştirilmiş bir **BApp (Burp eklentisi)** olup, web uygulamalarındaki **yetkilendirme (authorization)** ve **erişim kontrolü (access control)** açıklarını tespit etmeye odaklanan bir güvenlik test aracıdır.
+
+Araç, aynı HTTP isteklerini farklı kullanıcı oturumları (session) ile otomatik olarak tekrar göndererek, **yetki atlama**, **yatay (horizontal) ve dikey (vertical) privilege escalation** gibi zafiyetleri saldırgan perspektifiyle analiz eder.
+
+Auth Analyzer, Burp Suite Professional ve Community Edition üzerinde proxy trafiği üzerinden çalışır ve kullanıcı gezintisi sırasında yakalanan istekleri temel alır.
 
 ---
 
 ## 2. Temel Çalışma Prensipleri
 
-### 2.1 Nasıl Çalışır?
-- Burp Suite proxy aktif edilerek hedef web uygulaması üzerinde gezinilir.
-- Auth Analyzer, seçilen kullanıcı session’larını klonlar veya farklı roller için yeni session’lar tanımlar.
-- Yüksek yetkili kullanıcıya ait HTTP istekleri, düşük yetkili roller için otomatik olarak tekrar gönderilir.
-- Dönen yanıtlar analiz edilerek yetki atlamaları tespit edilmeye çalışılır.
+### 2.1 Oturum Tanımlama
+- Farklı kullanıcı rollerini temsil eden session tanımları oluşturulur.
+- Admin, standart kullanıcı veya anonim kullanıcı gibi roller için cookie veya token değerleri manuel olarak eklenir.
 
-### 2.2 Akış Özeti
-- Admin / user gibi farklı roller oluşturulur.
-- HTTP istekleri otomatik olarak yeniden oynatılır.
-- CSRF token’ları, session cookie’leri ve parametreler otomatik olarak extract & replace edilir.
-- Yanıtlar karşılaştırılır ve **SAME / SIMILAR / DIFFERENT** olarak etiketlenir.
+### 2.2 Parametre Çekme ve Yerine Koyma
+- CSRF token, session cookie ve bearer token gibi dinamik değerler otomatik olarak yanıt içinden çekilir.
+- Bu parametreler URL, header, JSON body veya cookie alanlarında güncellenir.
 
----
+### 2.3 İstekleri Tekrar Gönderme
+- Kullanıcı tarayıcıyla uygulamayı gezerken oluşan istekler, tanımlı tüm oturumlar için otomatik olarak yeniden gönderilir.
+- Böylece bir rolün erişemediği kaynağa başka bir rolün erişip erişemediği test edilir.
 
-## 3. Best Practices ve Endüstri Standartları
-
-### 3.1 Güvenli Oturum Yönetimi
-Auth Analyzer bir koruma aracı değil, analiz aracıdır. Güvenli oturum yönetimi için:
-- Cookie’lerde `Secure` ve `HttpOnly` flag’leri aktif olmalıdır.
-- State-changing istekler CSRF koruması ile korunmalıdır.
-- Logout sonrası session token’ları geçersiz hale getirilmelidir.
-
-### 3.2 Yetkilendirme Kontrolleri
-- Tüm roller sistematik olarak test edilmelidir.
-- Düşük ve yüksek yetki istekleri otomasyon ile denenmelidir.
-- HTTP status code, response body ve içerik uzunlukları karşılaştırılmalıdır.
-
-### 3.3 İzleme ve Loglama
-- Yetkisiz erişim denemeleri loglanmalıdır.
-- Test sonuçları karşılaştırmalı raporlar halinde saklanmalıdır.
+### 2.4 Bypass Analizi
+- Dönen yanıtlar karşılaştırılır.
+- Sonuçlar **SAME**, **SIMILAR** ve **DIFFERENT** olarak sınıflandırılır.
+- Yetkisiz erişim veya veri sızıntısı ihtimalleri değerlendirilir.
 
 ---
 
-## 4. Benzer Araçlar ve Ekosistem
+## 3. Best Practices (En İyi Uygulamalar)
 
-| Araç | Tür | Amaç |
-|----|----|----|
-| Auth Analyzer | Burp Extension | Yetki açıkları |
-| Autorize | Burp Extension | IDOR & authorization |
-| Session Auth | Burp Extension | Auth escalation |
-| :contentReference[oaicite:1]{index=1} | Proxy Tool | Auth & session testleri |
+### 3.1 Test Kapsamı
+- Sadece oturum ve yetkilendirme içeren endpoint’lerin test edilmesi yanlış pozitifleri azaltır.
+- Burp Suite scope ayarları aktif kullanılmalıdır.
+
+### 3.2 Parametre Doğruluğu
+- Auto extract yapılandırmaları dikkatle ayarlanmalıdır.
+- Yanlış token çekimi test sonuçlarını geçersiz kılabilir.
+
+### 3.3 Farklı Roller
+- Birden fazla yetki seviyesine sahip oturum tanımlanmalıdır.
+- Bu yaklaşım yatay ve dikey yetki atlama açıklarını ortaya çıkarır.
+
+### 3.4 Manuel Doğrulama
+- Otomatik etiketler manuel inceleme ile doğrulanmalıdır.
+- Yanıt içerikleri detaylı olarak analiz edilmelidir.
+
+---
+
+## 4. Benzer Araçlar ve Rakipler
+
+| Araç | Açıklama |
+|----|----|
+| Autorize | IDOR ve access control testleri için Burp eklentisi |
+| Burp Extensions | Param Miner gibi çeşitli test eklentileri |
+| :contentReference[oaicite:1]{index=1} | Burp’a alternatif açık kaynak DAST aracı |
 
 ---
 
 ## 5. Kritik Yapılandırmalar
 
-### 5.1 Session ve Header Parametreleri
-- Authorization
-- Cookie
-- CSRF / Bearer Token
+### 5.1 Session Header Ayarları
+- Cookie veya Authorization header’ları tanımlanır.
+- Farklı oturumlar için ayrı değerler kullanılır.
 
-### 5.2 Filtreler
-- HTTP method filtreleri (GET / POST)
-- Status code filtreleri
-- Path ve query exclude listeleri
+### 5.2 Extraction Parametreleri
+- Auto Extract veya From–To yöntemleri ile dinamik token’lar çekilir.
 
-### 5.3 Raporlama
-- XML veya HTML formatında dışa aktarma
-- Karşılaştırmalı analiz raporları
+### 5.3 Filtreler
+- Statik dosyalar veya test dışı istekler filtrelenebilir.
 
 ---
 
-## 6. Güvenlik Açısından Kritik Noktalar
+## 6. Güvenlik Perspektifi
 
-### 6.1 Test Riskleri
-- Production ortamda test yapılması ciddi risk oluşturur.
-- Yanıtlarda hassas veriler bulunabilir.
-
-### 6.2 False Positive
-- Yanıt gövdesindeki küçük farklar yanlış pozitif üretebilir.
-- %5 toleranslı response length karşılaştırması kullanılır.
-
-### 6.3 Oturum Veri Koruması
-- Session ID ve token’lar güvenli saklanmalıdır.
-- CSRF ve SameSite cookie politikaları güçlü tutulmalıdır.
+- Horizontal ve vertical privilege escalation açıkları ana hedeflerdir.
+- Dinamik token ve CSRF yapılandırmaları doğru olmalıdır.
+- Yanlış session tanımları yanlış pozitif sonuçlara yol açabilir.
 
 ---
 
-## 7. Örnek Kullanım Akışı
-
-1. Burp Proxy aktif edilir.
-2. Admin kullanıcı ile uygulamaya giriş yapılır.
-3. Session Auth Analyzer’a eklenir.
-4. Düşük yetkili kullanıcı için ikinci session tanımlanır.
-5. Yetkili istekler tekrar edilir.
-6. SAME / SIMILAR / DIFFERENT sonuçları analiz edilir.
-7. CSV veya HTML formatında rapor alınır.
-
+## Sonuç
+Auth Analyzer, web uygulamalarında oturum ve yetkilendirme zafiyetlerini yarı otomatik olarak test eden güçlü bir Burp Suite eklentisidir. Doğru konfigürasyon ve manuel analizle birlikte kullanıldığında, güvenlik test süreçlerinde yüksek değer sağlar.
