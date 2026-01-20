@@ -2,7 +2,7 @@
 
 # ==========================================================
 # Proje: Auth-Session-Security-Analyzer (v1.0)
-# Hazırlayan: Derya Alan
+# Hazırlayan: kübra fison
 # Teknik: Unix I/O Streams (0/1/2) & Regex Pattern Matching
 # ==========================================================
 
