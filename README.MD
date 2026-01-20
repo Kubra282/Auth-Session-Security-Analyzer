@@ -4,7 +4,7 @@ Bu proje, modern web servislerinde ve uygulamalarında Kimlik Doğrulama (Authen
 👤 Hazırlayan
 İsim Soyisim: Kübra Fison
 
-Üniversite: İstinye Üniverstesi
+Üniversite: İstinye Üniversitesi
 
 Bölüm: Bilişim Güvenliği Teknolojisi
 
@@ -12,7 +12,7 @@ Bölüm: Bilişim Güvenliği Teknolojisi
 Servis yönetimi kapsamındaki oturum güvenliği sınırlarını test etmek, "Broken Authentication" ve "Session Hijacking" (Oturum Çalma) gibi kritik riskleri anlamak; sistem yöneticileri için bu risklere karşı proaktif bir tarama ve raporlama mekanizması oluşturmaktır.
 
 🔍 1. Çoklu Yapay Zeka Araştırması (Benchmarking)
-Proje kapsamında, güvenlik senaryolarını analiz etmek ve en doğru iyileştirme önerilerini sunmak için 5 farklı AI modelinin yetenekleri karşılaştırılmıştır:
+Proje kapsamında, güvenlik senaryolarını analiz etmek ve en doğru iyileştirme önerilerini sunmak için farklı AI modellerinin yetenekleri karşılaştırılmıştır:
 
 Gemini Pro (Google): Karmaşık oturum senaryolarında mantıksal analiz ve geniş bağlam yeteneği.
 
@@ -36,7 +36,4 @@ Servis Yönetimi Analizi: Yetkisiz erişim denemelerini ve hatalı yapılandır�
 Unix I/O Yönetimi: Kritik hataları stderr üzerinden, analiz sonuçlarını stdout üzerinden raporlar.
 
 Nasıl Çalıştırılır?
-
 Terminal üzerinden şu komut ile test edilebilir:
-
-
