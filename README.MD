@@ -39,6 +39,4 @@ Nasıl Çalıştırılır?
 
 Terminal üzerinden şu komut ile test edilebilir:
 
-Bu Taslak İçin Bir Sonraki Adım
-Eğer projenin kod kısmı (örneğin auth_scanner.sh) henüz hazır değilse, bu dosyanın içine ne tür kodlar yazman gerektiği konusunda (örneğin basit bir Python veya Bash scripti) yardımcı olmamı ister misin?
 
