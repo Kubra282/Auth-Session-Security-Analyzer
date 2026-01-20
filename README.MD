@@ -37,4 +37,5 @@ Unix I/O Yönetimi: Kritik hataları stderr üzerinden, analiz sonuçlarını st
 
 Nasıl Çalıştırılır?
 Terminal üzerinden şu komut ile test edilebilir:
+
 ./src/ tests/ auth_scanner.sh test_payloads.json# QLineSec
