@@ -1,5 +1,5 @@
-🛡️ Auth-Session-Security-Analyzer & Servis Yönetimi Güvenlik Projesi
-Bu proje, modern web servislerinde ve uygulamalarında Kimlik Doğrulama (Authentication) ve Oturum Yönetimi (Session Management) süreçlerindeki güvenlik zafiyetlerini analiz etmek, servis yönetimindeki riskleri belirlemek ve bu süreçleri otomatize etmek amacıyla geliştirilmiştir.
+🛡️ Auth-Session-Security-Analyzer Araştırma Projesi
+Bu proje, web uygulamalarındaki Kimlik Doğrulama (Authentication) ve Oturum Yönetimi (Session Management) zafiyetlerini analiz etmek, güvensiz oturum çerezlerini ve şifresiz veri iletimini tespit etmek amacıyla geliştirilmiştir.
 
 👤 Hazırlayan
 İsim Soyisim: Kübra Fison
@@ -9,33 +9,36 @@ Bu proje, modern web servislerinde ve uygulamalarında Kimlik Doğrulama (Authen
 Bölüm: Bilişim Güvenliği Teknolojisi
 
 🎯 Proje Amacı
-Servis yönetimi kapsamındaki oturum güvenliği sınırlarını test etmek, "Broken Authentication" ve "Session Hijacking" (Oturum Çalma) gibi kritik riskleri anlamak; sistem yöneticileri için bu risklere karşı proaktif bir tarama ve raporlama mekanizması oluşturmaktır.
+Web güvenliğinin en kritik katmanlarından biri olan "Auth & Session" yönetimindeki güvenlik açıklarını (Session Hijacking, Credential Leaking vb.) anlamak ve Unix I/O mimarisi kullanarak bu riskleri dosya/log seviyesinde otomatik olarak tarayabilmektir.
 
-🔍 1. Çoklu Yapay Zeka Araştırması (Benchmarking)
-Proje kapsamında, güvenlik senaryolarını analiz etmek ve en doğru iyileştirme önerilerini sunmak için farklı AI modellerinin yetenekleri karşılaştırılmıştır:
+🔍 1. Güvenlik ve Zafiyet Araştırması (Adım 5)
+Proje kapsamında, modern web uygulamalarında sıkça rastlanan oturum güvenliği ihlalleri incelenmiş ve bu zafiyetlerin tespit yöntemleri karşılaştırılmıştır:
 
-Gemini Pro (Google): Karmaşık oturum senaryolarında mantıksal analiz ve geniş bağlam yeteneği.
+Hardcoded Credentials: Kaynak kod içine gömülen şifre ve API anahtarlarının risk analizi.
 
-ChatGPT (OpenAI): Standart güvenlik protokolleri (OWASP) ile uyumluluk ve detaylı raporlama.
+Session Token Exposure: URL (GET metodları) üzerinden taşınan hassas oturum bilgilerinin tespiti.
 
-Gemini Fast: Hızlı veri işleme ve gerçek zamanlıya yakın yanıt süreleri ile pratik analiz.
+Insecure Transport (HTTP vs HTTPS): Şifrelenmemiş protokol kullanımının Man-in-the-Middle (MitM) saldırılarına etkisi.
 
-Microsoft Copilot: Kurumsal güvenlik standartları ve GitHub kaynaklarıyla entegre risk değerlendirmesi.
+Client-Side Cookie Access: document.cookie kullanımının XSS (Cross-Site Scripting) ile oturum çalma riskleri.
 
-Tüm karşılaştırmalı analiz raporlarına researchs/ klasöründen ulaşılabilir.
+Tüm teknik analiz notlarına researchs/ klasöründen ulaşılabilir.
 
-🛠️ 2. Terminal Otomasyonu: Session & Auth Scanner
-Projenin teknik kalbi olan src/auth_scanner.sh, Unix I/O mimarisini kullanarak servis logları ve konfigürasyon dosyaları içindeki zafiyet imzalarını tarar.
+🛠️ 2. Terminal Otomasyonu: Auth Scanner (Adım 6)
+Projenin kalbi olan auth_scanner.sh, Unix I/O akışlarını (Streams) ve Regex (Düzenli İfadeler) gücünü kullanarak dosyalar içindeki güvensiz kalıpları tarar.
 
 Özellikler:
+Gömülü Şifre Tespiti: Kod içinde unutulmuş password, api_key gibi kritik atamaları yakalar.
 
-Zayıf Token Tespiti: Tahmin edilebilir veya süresi dolmuş oturum anahtarlarını yakalar.
+GET Metodu Sızıntı Analizi: URL parametrelerinde (?token=, ?session_id=) ifşa olan oturum anahtarlarını bulur.
 
-Servis Yönetimi Analizi: Yetkisiz erişim denemelerini ve hatalı yapılandırılmış servis izinlerini (IDOR) tespit eder.
+Protokol Güvenliği: Güvensiz http:// bağlantılarını tespit eder.
 
-Unix I/O Yönetimi: Kritik hataları stderr üzerinden, analiz sonuçlarını stdout üzerinden raporlar.
+Unix I/O Yönetimi: Hata mesajlarını stderr (2), analiz sonuçlarını stdout (1) üzerinden, renkli ve okunaklı bir formatta döndürür.
 
 Nasıl Çalıştırılır?
-Terminal üzerinden şu komut ile test edilebilir:
+Terminal üzerinden hedef dosya veya log dosyasını taramak için şu komut kullanılır:
 
-./src/ tests/ auth_scanner.sh test_payloads.json# QLineSec
+Bash
+
+./auth_scanner.sh target_code.js
