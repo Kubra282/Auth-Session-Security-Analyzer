@@ -1,0 +1,15 @@
+{
+  "projectName": "Auth-Session-Security-Analyzer",
+  "category": "System Security",
+  "author": "Kübra Fison",
+  "version": "1.0.0",
+  "description": "User authentication and session security analysis tool",
+  "features": [
+    "Analyze user sessions",
+    "Detect security anomalies"
+  ],
+  "requirements": {
+    "os": "Linux (Ubuntu/Debian)",
+    "language": "Bash / Python"
+  }
+}
